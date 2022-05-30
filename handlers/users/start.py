@@ -91,7 +91,7 @@ async def third_video(message: types.Message, state):
     await asyncio.sleep(Videos.sixth_length - timing)
     await message.answer(Messages.sixth_answer)
 
-    with open('volumes/finishUsers.csv', 'a', newline='') as csvfile:
+    with open('volumes/finishUsers.csv', 'a', newline='', encoding='utf-8') as csvfile:
         spam_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         spam_writer.writerow([message.from_user.id, message.from_user.full_name, message.from_user.username])
 
@@ -102,7 +102,7 @@ async def third_video(message: types.Message, state):
 async def admin(message: types.Message, state):
     msg = message.text[7:]  # delete from str - /admin
 
-    with open('volumes/finishUsers.csv', 'r', newline='') as csvfile:
+    with open('volumes/finishUsers.csv', 'r', newline='', encoding='utf-8') as csvfile:
         spam_reader = csv.reader(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
         users_id = []
@@ -128,4 +128,10 @@ async def admin(message: types.Message, state):
 
         await message.answer('\n'.join(set(msg)))
 
+
+@dp.message_handler(commands=['test'], user_id=ADMINS)
+async def admin(message: types.Message, state):
+    with open('volumes/finishUsers.csv', 'a', newline='', encoding='utf-8') as csvfile:
+        spam_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spam_writer.writerow([message.from_user.id, message.from_user.full_name, message.from_user.username])
 
