@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  tg:
+    build: .
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - users:/usr/src/app/volumes
+
+volumes:
+  users:
+    name: papaskas_bot_for_father_users_volume
