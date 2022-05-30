@@ -116,3 +116,16 @@ async def admin(message: types.Message, state):
             except aiogram.utils.exceptions.ChatNotFound:
                 continue
 
+
+@dp.message_handler(commands=['get_users'], user_id=ADMINS)
+async def admin(message: types.Message, state):
+    with open('volumes/finishUsers.csv', 'r', newline='') as csvfile:
+        spam_reader = csv.reader(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+        msg = []
+        for row in spam_reader:
+            msg.append('tg://openmessage?user_id=' + str(row[0]))
+
+        await message.answer('\n'.join(set(msg)))
+
+
